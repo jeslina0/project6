@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Table Navigation: Bob in Blue</title>
+  <style>
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #333;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+<table id="dataTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alice</td>
+      <td>30</td>
+      <td>New York</td>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>25</td>
+      <td>Los Angeles</td>
+    </tr>
+    <tr>
+      <td>Charlie</td>
+      <td>35</td>
+      <td>Chicago</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  // Get the table's tbody section.
+  const tbody = document.getElementById('dataTable').tBodies[0];
+
+  // Loop through each row in tbody.
+  for (let i = 0; i < tbody.rows.length; i++) {
+    const row = tbody.rows[i];
+    // Check if the first cell's text content is "Bob".
+    if (row.cells[0].textContent.trim() === "Bob") {
+      // Change the text color of Bob's cell to ble.
+      row.cells[0].style.color = 'blue';
+    }
+  }
+</script>
+
+</body>
+</html>
