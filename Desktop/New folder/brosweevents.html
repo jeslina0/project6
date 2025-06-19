@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Events Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .box { width: 200px; height: 200px; background: lightblue; margin: 20px auto; line-height: 200px; }
+        .drag { width: 100px; height: 100px; background: orange; margin: 10px auto; cursor: grab; }
+        @keyframes myAnimation {
+            from { background-color: red; }
+            to { background-color: yellow; }
+        }
+        .animated { animation: myAnimation 2s infinite alternate; }
+    </style>
+</head>
+<body>
+
+    <h1>JavaScript Browser Events Demo</h1>
+
+  <!---- Mouse Events -->
+    <div class="box" id="mouseBox">Mouse Events</div>
+
+    <!-- Keyboard Events -->
+    <input type="text" id="keyInput" placeholder="Type something..." />
+
+    <!-- Form Events -->
+    <form id="myForm">
+        <input type="text" id="nameInput" placeholder="Enter name">
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Touch Events -->
+    <div class="box" id="touchBox">Touch Me</div>
+
+    <!-- Drag & Drop Events -->
+    <div id="dropArea" class="box">Drop Here</div>
+    <div id="dragItem" class="drag" draggable="true">Drag Me</div>
+
+    <!-- Clipboard Events -->
+    <textarea id="copyPasteArea" placeholder="Copy/Paste here"></textarea>
+
+    <!-- Media Events -->
+    <video id="videoPlayer" width="320" height="240" controls>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Animation Events -->
+    <div id="animatedBox" class="box animated">Animating...</div>
+
+    <script>
+        // Mouse Events
+        let mouseBox = document.getElementById("mouseBox");
+        mouseBox.addEventListener("click", () => alert("Box Clicked!"));
+        mouseBox.addEventListener("dblclick", () => alert("Double Clicked!"));
+        mouseBox.addEventListener("mouseover", () => mouseBox.style.background = "lightgreen");
+        mouseBox.addEventListener("mouseout", () => mouseBox.style.background = "lightblue");
+        mouseBox.addEventListener("contextmenu", (e) => { e.preventDefault(); alert("Right Click Blocked!"); });
+
+        // Keyboard Events
+        document.getElementById("keyInput").addEventListener("keydown", (e) => console.log("Key Down: " + e.key));
+        document.getElementById("keyInput").addEventListener("keyup", (e) => console.log("Key Up: " + e.key));
+     
+        // Form Events       
+         document.getElementById("nameInput").addEventListener("focus", () => console.log("Input Focused"));
+        document.getElementById("nameInput").addEventListener("blur", () => console.log("Input Blurred"));
+        document.getElementById("nameInput").addEventListener("input", (e) => console.log("Input Changed: " + e.target.value));
+        document.getElementById("myForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            alert("Form Submitted!");
+        });         
+  
+        // Window Events
+        window.addEventListener("resize", () => console.log("Window Resized: " + window.innerWidth + "px"));
+        window.addEventListener("scroll", () => console.log("Page Scrolled"));
+        window.addEventListener("load", () => console.log("Page Loaded!"));
+        window.addEventListener("beforeunload", (e) => {
+            e.preventDefault();
+            e.returnValue = "Are you sure you want to leave?";
+        }); 
+
+        // Touch Events (for mobile devices)                   
+        let touchBox = document.getElementById("touchBox");
+        touchBox.addEventListener("touchstart", () => touchBox.style.background = "yellow");
+        touchBox.addEventListener("touchmove", () => touchBox.innerText = "Moving...");
+        touchBox.addEventListener("touchend", () => touchBox.style.background = "lightblue");
+
+              // Drag & Drop Events
+        let dragItem = document.getElementById("dragItem");
+        let dropArea = document.getElementById("dropArea");                       
+        dragItem.addEventListener("dragstart", (e) => e.dataTransfer.setData("text", e.target.id));
+        dropArea.addEventListener("dragover", (e) => e.preventDefault());
+        dropArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            let data = e.dataTransfer.getData("text");
+            e.target.appendChild(document.getElementById(data));
+        });   
+          
+        // Clipboard Events
+        document.getElementById("copyPasteArea").addEventListener("copy", () => alert("Text Copied!"));
+        document.getElementById("copyPasteArea").addEventListener("paste", () => alert("Text Pasted!"));
+
+        // Media Events
+        let video = document.getElementById("videoPlayer");
+        video.addEventListener("play", () => console.log("Video Playing"));
+        video.addEventListener("pause", () => console.log("Video Paused"));
+        video.addEventListener("ended", () => console.log("Video Ended"));
+
+     // CSS Animation Events
+  let animatedBox = document.getElementById("animatedBox");
+  animatedBox.addEventListener("animationstart", () => console.log("Animation Started"));
+  animatedBox.addEventListener("animationend", () => console.log("Animation Ended"));
+ </script>
+ </body>
+ </html>
+                     

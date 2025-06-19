@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Search & Array Manipulation</title>
+    <style>
+        .highlight { background-color: yellow; }
+        .container { padding: 10px; border: 2px solid black; margin: 20px; }
+        .item { padding: 5px; margin: 5px; border: 1px solid gray; }
+    </style>
+</head>
+<body>
+
+    <h1 id="title">DOM Search & Array Manipulation</h1>
+
+    <div id="parentElement" class="container">
+        <p class="text">Paragraph 1</p>
+        <p class="text">Paragraph 2</p>
+        <p class="text" data-type="special">Special Paragraph</p>
+        <div class="item">First Child</div>
+        <div id="myElement" class="item">Middle Child</div>
+        <div class="item">Last Child</div>
+    </div>
+
+    <button onclick="searchDOM()">Search the DOM</button>
+    <button onclick="manipulateArray()">Manipulate Array</button>
+
+    <script>
+        function searchDOM() {
+            console.clear(); // Clear console for fresh output
+
+            // 1️⃣ Searching by ID
+            let title = document.getElementById("title");
+            console.log("🔹 Title Element:", title);
+
+            let middleChild = document.getElementById("myElement");
+            console.log("🔹 Middle Child:", middleChild);
+
+            // 2️⃣ Searching by Class Name
+            let paragraphs = document.getElementsByClassName("text");
+            console.log("🔹 Paragraphs:", paragraphs);
+
+            let allItems = document.getElementsByClassName("item");
+            console.log("🔹 All Items:", allItems);
+
+            // 3️⃣ Searching by Tag Name
+            let allDivs = document.getElementsByTagName("div");
+            console.log("🔹 All <div> elements:", allDivs);
+
+            let allParagraphs = document.getElementsByTagName("p");
+            console.log("🔹 All <p> elements:", allParagraphs);
+
+            // 4️⃣ Searching using querySelector (First Match)
+            let firstParagraph = document.querySelector(".text");
+            console.log("🔹 First Paragraph (querySelector):", firstParagraph);
+
+            let specialElement = document.querySelector("[data-type='special']");
+            console.log("🔹 Special Paragraph (querySelector):", specialElement);
+
+            // 5️⃣ Searching using querySelectorAll (All Matches)
+            let allTextElements = document.querySelectorAll(".text");
+            console.log("🔹 All '.text' elements (querySelectorAll):", allTextElements);
+
+            let allItemsQuery = document.querySelectorAll(".item");
+            console.log("🔹 All '.item' elements (querySelectorAll):", allItemsQuery);
+
+            // 6️⃣ Navigating Parent, Child, and Sibling Elements
+            let parent = document.getElementById("parentElement");
+            console.log("🔵 Parent Element:", parent);
+
+            console.log("🟠 First Child of Parent:", parent.firstElementChild);
+            console.log("🟠 Last Child of Parent:", parent.lastElementChild);
+            console.log("🟠 Next Sibling of Middle Child:", middleChild.nextElementSibling);
+            console.log("🟠 Previous Sibling of Middle Child:", middleChild.previousElementSibling);
+
+            //  Highlight all '.text' paragraphs dynamically
+            allTextElements.forEach(element => {
+                element.classList.add("highlight");
+            });
+
+            console.log("✅ All selected paragraphs are now highlighted!");
+        }
+
+        function manipulateArray() {
+            console.clear(); // Clear console
+
+            let items = ["apple", "banana", "grape", "mango", "cherry"];
+
+            console.log("🔹 Original Array:", items);
+
+            //  Convert to Uppercase
+            let upperCaseItems = items.map(item => item.toUpperCase());
+            console.log("🔹 Uppercase Array:", upperCaseItems);
+
+            //  Convert to Lowercase
+            let lowerCaseItems = items.map(item => item.toLowerCase());
+            console.log("🔹 Lowercase Array:", lowerCaseItems);
+
+            //  Sorting Alphabetically
+            let sortedItems = [...items].sort();
+            console.log("🔹 Sorted Array:", sortedItems);
+
+            //  Reverse the Array
+            let reversedItems = [...items].reverse();
+            console.log("🔹 Reversed Array:", reversedItems);
+
+            //  Filtering Elements (Words Starting with 'B')
+            let filteredItems = items.filter(item => item.startsWith("b"));
+            console.log("🔹 Filtered Array (Starts with 'B'):", filteredItems);
+
+            //  Changing Index Dynamically
+            let temp = items[0]; // Swap first and last
+            items[0] = items[items.length - 1];
+            items[items.length - 1] = temp;
+            console.log("🔹 Swapped First and Last Element:", items);
+
+            //  Adding & Removing Elements
+            items.push("orange"); // Add element
+            console.log("🔹 After Push (Add):", items);
+
+            items.pop(); // Remove last element
+            console.log("🔹 After Pop (Remove Last):", items);
+
+            items.shift(); // Remove first element
+            console.log("🔹 After Shift (Remove First):", items);
+
+            items.unshift("strawberry"); // Add to the beginning
+            console.log("🔹 After Unshift (Add to Start):", items);
+
+            //  Join Elements into a String
+            let joinedString = items.join(", ");
+            console.log("🔹 Joined String:", joinedString);
+        }
+    </script>
+
+</body>
+</html>

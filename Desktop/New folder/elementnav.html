@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Element Navigation</title>
+    <style>
+        .container { padding: 10px; border: 2px solid black; margin: 20px; }
+        .item { padding: 5px; margin: 5px; border: 1px solid gray; }
+    </style>
+</head>
+<body>
+
+    <div id="parentElement" class="container">
+        Parent Element
+        <div class="item">First Child</div>
+        <div id="myElement" class="item">Middle Child</div>
+        <div class="item">Last Child</div>
+    </div>
+
+    <button onclick="navigateDOM()">Click to Navigate DOM</button>
+
+    <script>
+        function navigateDOM() {
+            // 1️⃣ Selecting Elements
+            let parent = document.getElementById("parentElement"); // Parent
+            let middleChild = document.getElementById("myElement"); // Middle child
+            let allItems = document.getElementsByClassName("item"); // All child elements
+
+            console.log("🟢 Parent Element:", parent);
+            console.log("🟢 Middle Child:", middleChild);
+            console.log("🟢 All Items:", allItems);
+
+            // 2️⃣ Navigating Parent & Children
+            console.log("🔵 Parent of Middle Child:", middleChild.parentElement);
+            console.log("🔵 First Child:", parent.firstElementChild);
+            console.log("🔵 Last Child:", parent.lastElementChild);
+
+            // 3️⃣ Navigating Sibling Elements
+            console.log("🟠 Next Sibling of Middle Child:", middleChild.nextElementSibling);
+            console.log("🟠 Previous Sibling of Middle Child:", middleChild.previousElementSibling);
+
+            // 4️⃣ Using Query Selectors
+            let firstItem = document.querySelector(".item");
+            let allSelectedItems = document.querySelectorAll(".item");
+            console.log("🟣 First '.item':", firstItem);
+            console.log("🟣 All '.item':", allSelectedItems);
+
+            // 5️⃣ Looping Through Elements
+            allSelectedItems.forEach(item => {
+                console.log("🟤 Looping through items:", item.textContent);
+            });
+        }
+    </script>
+
+</body>
+</html>

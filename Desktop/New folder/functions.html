@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM, Array & Functions</title>
+    <style>
+        .highlight { background-color: yellow; }
+        .container { padding: 10px; border: 2px solid black; margin: 20px; }
+        .item { padding: 5px; margin: 5px; border: 1px solid gray; }
+    </style>
+</head>
+<body>
+
+    <h1 id="title">DOM, Array & Functions</h1>
+
+    <div id="parentElement" class="container">
+        <p class="text">Paragraph 1</p>
+        <p class="text">Paragraph 2</p>
+        <p class="text" data-type="special">Special Paragraph</p>
+        <div class="item">First Child</div>
+        <div id="myElement" class="item">Middle Child</div>
+        <div class="item">Last Child</div>
+    </div>
+
+    <button onclick="searchDOM()">Search the DOM</button>
+    <button onclick="manipulateArray()">Manipulate Array</button>
+    <button onclick="functionOperations()">Function Operations</button>
+
+    <script>
+        // Function to search the DOM
+        function searchDOM() {
+            console.clear();
+            console.log("🔹 Searching DOM...");
+
+            let title = document.getElementById("title");
+            let paragraphs = document.querySelectorAll(".text");
+            let specialElement = document.querySelector("[data-type='special']");
+            let allItems = document.querySelectorAll(".item");
+
+            console.log("🔹 Title:", title);
+            console.log("🔹 Paragraphs:", paragraphs);
+            console.log("🔹 Special Paragraph:", specialElement);
+            console.log("🔹 All Items:", allItems);
+
+            paragraphs.forEach(el => el.classList.add("highlight"));
+        }
+
+        // Function to manipulate arrays
+        function manipulateArray() {
+            console.clear();
+            console.log("🔹 Manipulating Arrays...");
+
+            let fruits = ["apple", "banana", "cherry", "date", "grape"];
+
+            console.log("🔹 Original Array:", fruits);
+            console.log("🔹 Uppercase:", fruits.map(f => f.toUpperCase()));
+            console.log("🔹 Lowercase:", fruits.map(f => f.toLowerCase()));
+            console.log("🔹 Sorted:", [...fruits].sort());
+            console.log("🔹 Reversed:", [...fruits].reverse());
+            console.log("🔹 Filter (Starts with 'b'):", fruits.filter(f => f.startsWith("b")));
+
+            let swapped = swapElements(fruits, 0, fruits.length - 1);
+            console.log("🔹 Swapped First & Last:", swapped);
+        }
+
+        // Function to demonstrate different function types
+        function functionOperations() {
+            console.clear();
+            console.log("🔹 Function Operations...");
+
+            // 1️⃣ Named Function
+            function greet(name) {
+                return `Hello, ${name}!`;
+            }
+            console.log("🔹 Named Function:", greet("Alice"));
+
+            // 2️⃣ Function Expression
+            const multiply = function (a, b) {
+                return a * b;
+            };
+            console.log("🔹 Function Expression (Multiply):", multiply(5, 3));
+
+            // 3️⃣ Arrow Function
+            const add = (x, y) => x + y;
+            console.log("🔹 Arrow Function (Addition):", add(7, 2));
+
+            // 4️⃣ Higher-Order Function (Function Taking Another Function)
+            function operate(a, b, operation) {
+                return operation(a, b);
+            }
+            console.log("🔹 Higher-Order Function (Multiplication):", operate(4, 6, multiply));
+
+            // 5️⃣ Callback Function
+            function processArray(arr, callback) {
+                return arr.map(callback);
+            }
+            console.log("🔹 Callback Function (Uppercase):", processArray(["cat", "dog"], word => word.toUpperCase()));
+
+            // 6️⃣ Self-Invoking Function (IIFE)
+            (function () {
+                console.log("🔹 IIFE (Self-Invoking Function) executed!");
+            })();
+
+            // 7️⃣ Function Returning Another Function (Closure)
+            function makeMultiplier(factor) {
+                return function (num) {
+                    return num * factor;
+                };
+            }
+            const double = makeMultiplier(2);
+            console.log("🔹 Closure (Double Function):", double(8));
+        }
+
+        // Utility function to swap elements in an array
+        function swapElements(arr, index1, index2) {
+            let temp = arr[index1];
+            arr[index1] = arr[index2];
+            arr[index2] = temp;
+            return arr;
+        }
+
+    </script>
+
+</body>
+</html>

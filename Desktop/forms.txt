@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Data Capture</title>
+    <title>Move Buttons Left & Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+       
+        button {
+            padding: 10px;
+            margin: 10px 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button.reset {
+            background-color: #f44336;
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            width: 100%;
+        }
+        .form-container {
+            width: 300px;
+            border-color: blue;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            margin-top: 20px;
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .Form, .Table {
+            position: absolute;
+            left: 60px;  
+            top: 60px;  
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+          background-color: blue;
+            color: white;
+            border-radius: 5px;
+            width: 100px;
+        }
+     
+       
+        
+        .Table {
+            top: 180px; 
+        }
+        
+      
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <form id="userForm">
+        
+            <label for="email">Email:</label>
+            <input type="email" id="email" required><br>
+   
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" required pattern="[A-Za-z]{2,}" ><br>
+   
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" required pattern="[A-Za-z]{2,}"  ><br>
+   
+            <label for="address">Address:</label>
+            <input type="text" id="address" required><br>
+   
+            <label for="phone">Phone Number:</label>
+            <input type="number" required pattern="^\d{10}$" id="phone"  ><br>
+   
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" required max="2007-12-31" ><br>
+   
+            <label for="city">City:</label>
+            <input type="text" id="city" required pattern="[A-Za-z\s]{2,}" ><br>
+   
+            <label for="state">State:</label>
+            <input type="text" id="state" required><br>
+   
+            <label for="zip">Zip Code:</label>
+            <input type="number" id="zip" required pattern="\d{5}" ><br>
+   
+            <label for="country">Country:</label>
+            <input type="text" id="country" required pattern="[A-Za-z\s]{2,}"><br>
+   
+            <label for="username">Username:</label>
+            <input type="text" id="username" required pattern="[A-Za-z]{2,}" ><br>
+   
+            <label for="password">Password:</label>
+            <input type="password" id="password" required><br>
+   
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" required><br>
+   
+            <label for="company">Company:</label>
+            <input type="text" id="company"><br>
+   
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" id="jobTitle"><br>
+   
+            <label for="website">Website:</label>
+            <input type="text" id="website" required pattern="https?://([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}" ><br>
+   
+            <label for="bio">Bio:</label>
+            <textarea id="bio"></textarea><br>
+   
+            <label for="gender">Gender:</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select><br>
+   
+            <label for="interests">Interests:</label>
+            <input type="text" id="interests" required pattern="[A-Za-z]{5,}" ><br>
+   
+            <label for="skills">Skills:</label>
+            <input type="text" id="skills" required pattern="[A-Za-z]{2,}" ><br>
+   
+            <label for="education">Education:</label>
+            <input type="text" id="education"><br>
+   
+            <label for="experience">Experience (in years):</label>
+            <input type="number" id="experience" required min="0" ><br>
+   
+            <button type="button" id="submitBtn">Submit</button>
+            <button type="button" class="reset" id="resetBtn">Reset</button>
+        <div style="background-color: aqua;"></div>
+
+<button type="button" class="Form" id="Form">Form</button>
+<button type="button" class="Table" id="Table">Table</button>
+            
+        </form>
+    </div>
+
+    <div>
+        <h2>Stored Form Data:</h2>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone</th>
+                    <th>Date of Birth</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip Code</th>
+                    <th>Country</th>
+                    <th>Username</th>
+                    <th>Company</th>
+                    <th>Job Title</th>
+                    <th>Website</th>
+                    <th>Bio</th>
+                    <th>Gender</th>
+                    <th>Intrests</th>
+                    <th>Skills</th>
+                    <th>Education</th>
+                    <th>Experience</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+<script>
+    function validateForm() {
+        const phone = document.getElementById("phone").value;
+        const city = document.getElementById("city").value;
+        const state = document.getElementById("state").value;
+        const country = document.getElementById("country").value;
+
+
+        if (!/^\d{10}$/.test(phone)) {
+            alert("Phone number must be exactly 10 digits.");
+            return false;
+        }  
+
+        if (!/^[A-Za-z\s]+$/.test(city)) {
+    alert("City name must only contain letters and spaces.");
+    return false;
+}
+
+if (!/^[A-Za-z\s]+$/.test(state)) {
+    alert("state name must only contain letters and spaces.");
+    return false;
+}
+if (!/^[A-Za-z\s]+$/.test(country)) {
+    alert("country name must only contain letters and spaces.");
+    return false;
+}
+
+
+        return true;
+    }
+
+    function handleFormSubmission() {
+        if (!validateForm()) {
+            return;
+        }
+
+        const formData = {
+            email: document.getElementById("email").value,
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            address: document.getElementById("address").value,
+            phone: document.getElementById("phone").value,
+            dob: document.getElementById("dob").value,
+            city: document.getElementById("city").value,
+            state: document.getElementById("state").value,
+            zip: document.getElementById("zip").value,
+            country: document.getElementById("country").value,
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+            confirmPassword: document.getElementById("confirmPassword").value,
+            company: document.getElementById("company").value,
+            jobTitle: document.getElementById("jobTitle").value,
+            website: document.getElementById("website").value,
+            bio: document.getElementById("bio").value,
+            gender: document.getElementById("gender").value,
+            interests: document.getElementById("interests").value,
+            skills: document.getElementById("skills").value,
+            education: document.getElementById("education").value,
+            experience: document.getElementById("experience").value
+        };
+
+        localStorage.setItem("formData", JSON.stringify(formData));
+        alert("Form data has been saved!");
+        document.getElementById("userForm").reset();
+        displayData(); 
+    }
+
+    function resetForm() {
+        document.getElementById("userForm").reset();
+    }
+
+    function displayData() {
+        const storedData = JSON.parse(localStorage.getItem("formData"));
+
+        if (storedData) {
+            const tbody = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
+            const newRow = tbody.insertRow();
+
+            newRow.innerHTML = `
+                <td>${storedData.email}</td>
+                <td>${storedData.firstName}</td>
+                <td>${storedData.lastName}</td>
+                <td>${storedData.phone}</td>
+                <td>${storedData.DateofBirth}</td>
+                <td>${storedData.city}</td>
+                 <td>${storedData.State}</td>
+                 <td>${storedData.ZipCode}</td>
+                <td>${storedData.country}</td>
+                <td>${storedData.Username}</td>
+                <td>${storedData.Company}</td>
+                <td>${storedData.JobTitle}</td>
+                <td>${storedData.website}</td>
+                <td>${storedData.Bio}</td>
+                <td>${storedData.Gender}</td>
+              <td>${storedData.Inttrests}</td>
+              <td>${storedData.Skills}</td>
+              <td>${storedData.education}</td>
+              <td>${storedData.Experience}</td>
+            `;
+        }
+    }
+
+    document.getElementById("submitBtn").addEventListener("click", handleFormSubmission);
+    document.getElementById("resetBtn").addEventListener("click", resetForm);
+
+   
+ window.onload = displayData;
+</script>
+
+</body>
+</html> __________________________
+
+
+
+
+
+
+
+
+
+
+(another form)
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Data Capture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px;
+            margin: 10px 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button.reset {
+            background-color: #f44336;
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            width: 100%;
+        }
+        .form-container {
+            width: 300px;
+            border-color: blue;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            margin-top: 20px;
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .Form, .Table {
+            position: absolute;
+            left: 60px;  
+            top: 60px;  
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: blue;
+            color: white;
+            border-radius: 5px;
+            width: 100px;
+        }
+
+        .Table {
+            top: 180px; 
+        }
+        
+        /* Hide the table by default */
+        #dataTableContainer {
+            display: none;
+        }
+
+        /* Hide the form by default */
+        #formContainer {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container" id="formContainer">
+        <form id="userForm">
+        
+            <label for="email">Email:</label>
+            <input type="email" id="email" required><br>
+   
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" required pattern="[A-Za-z]{2,}" ><br>
+   
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" required pattern="[A-Za-z]{2,}"  ><br>
+   
+            <label for="address">Address:</label>
+            <input type="text" id="address" required><br>
+   
+            <label for="phone">Phone Number:</label>
+            <input type="number" required pattern="^\d{10}$" id="phone"  ><br>
+   
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" required max="2007-12-31" ><br>
+   
+            <label for="city">City:</label>
+            <input type="text" id="city" required pattern="[A-Za-z\s]{2,}" ><br>
+   
+            <label for="state">State:</label>
+            <input type="text" id="state" required><br>
+   
+            <label for="zip">Zip Code:</label>
+            <input type="number" id="zip" required pattern="\d{5}" ><br>
+   
+            <label for="country">Country:</label>
+            <input type="text" id="country" required pattern="[A-Za-z\s]{2,}"><br>
+   
+            <label for="username">Username:</label>
+            <input type="text" id="username" required pattern="[A-Za-z]{2,}" ><br>
+   
+            <label for="password">Password:</label>
+            <input type="password" id="password" required><br>
+   
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" required><br>
+   
+            <label for="company">Company:</label>
+            <input type="text" id="company"><br>
+   
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" id="jobTitle"><br>
+   
+            <label for="website">Website:</label>
+            <input type="text" id="website" required pattern="https?://([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}" ><br>
+   
+            <label for="bio">Bio:</label>
+            <textarea id="bio"></textarea><br>
+   
+            <label for="gender">Gender:</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select><br>
+   
+            <label for="interests">Interests:</label>
+            <input type="text" id="interests" required pattern="[A-Za-z]{5,}" ><br>
+   
+            <label for="skills">Skills:</label>
+            <input type="text" id="skills" required pattern="[A-Za-z]{2,}" ><br>
+   
+            <label for="education">Education:</label>
+            <input type="text" id="education"><br>
+   
+            <label for="experience">Experience (in years):</label>
+            <input type="number" id="experience" required min="0" ><br>
+   
+            <button type="button" id="submitBtn">Submit</button>
+            <button type="button" class="reset" id="resetBtn">Reset</button>
+        </form>
+    </div>
+
+    <!-- Hidden by default; shown when "Table" is clicked -->
+    <div id="dataTableContainer">
+        <h2>Stored Form Data:</h2>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone</th>
+                    <th>Date of Birth</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip Code</th>
+                    <th>Country</th>
+                    <th>Username</th>
+                    <th>Company</th>
+                    <th>Job Title</th>
+                    <th>Website</th>
+                    <th>Bio</th>
+                    <th>Gender</th>
+                    <th>Intrests</th>
+                    <th>Skills</th>
+                    <th>Education</th>
+                    <th>Experience</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <button type="button" class="Form" id="Form">Form</button>
+    <button type="button" class="Table" id="Table">Table</button>
+
+    <script>
+        // Function to toggle visibility between form and table
+        document.getElementById("Form").addEventListener("click", function() {
+            document.getElementById("formContainer").style.display = "block"; // Show form
+            document.getElementById("dataTableContainer").style.display = "none"; // Hide table
+        });
+
+        document.getElementById("Table").addEventListener("click", function() {
+            document.getElementById("formContainer").style.display = "none"; // Hide form
+            document.getElementById("dataTableContainer").style.display = "block"; // Show table
+        });
+
+        function validateForm() {
+            const phone = document.getElementById("phone").value;
+            const city = document.getElementById("city").value;
+            const state = document.getElementById("state").value;
+            const country = document.getElementById("country").value;
+
+            if (!/^\d{10}$/.test(phone)) {
+                alert("Phone number must be exactly 10 digits.");
+                return false;
+            }  
+
+            if (!/^[A-Za-z\s]+$/.test(city)) {
+                alert("City name must only contain letters and spaces.");
+                return false;
+            }
+
+            if (!/^[A-Za-z\s]+$/.test(state)) {
+                alert("State name must only contain letters and spaces.");
+                return false;
+            }
+
+            if (!/^[A-Za-z\s]+$/.test(country)) {
+                alert("Country name must only contain letters and spaces.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function handleFormSubmission() {
+            if (!validateForm()) {
+                return;
+            }
+
+            const formData = {
+                email: document.getElementById("email").value,
+                firstName: document.getElementById("firstName").value,
+                lastName: document.getElementById("lastName").value,
+                address: document.getElementById("address").value,
+                phone: document.getElementById("phone").value,
+                dob: document.getElementById("dob").value,
+                city: document.getElementById("city").value,
+                state: document.getElementById("state").value,
+                zip: document.getElementById("zip").value,
+                country: document.getElementById("country").value,
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
+                confirmPassword: document.getElementById("confirmPassword").value,
+                company: document.getElementById("company").value,
+                jobTitle: document.getElementById("jobTitle").value,
+                website: document.getElementById("website").value,
+                bio: document.getElementById("bio").value,
+                gender: document.getElementById("gender").value,
+                interests: document.getElementById("interests").value,
+                skills: document.getElementById("skills").value,
+                education: document.getElementById("education").value,
+                experience: document.getElementById("experience").value
+            };
+
+            localStorage.setItem("formData", JSON.stringify(formData));
+            alert("Form data has been saved!");
+            document.getElementById("userForm").reset();
+            displayData(); 
+        }
+
+        function resetForm() {
+            document.getElementById("userForm").reset();
+        }
+
+        function displayData() {
+            const storedData = JSON.parse(localStorage.getItem("formData"));
+
+            if (storedData) {
+                const tbody = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
+                const newRow = tbody.insertRow();
+
+                newRow.innerHTML = `
+                    <td>${storedData.email}</td>
+                    <td>${storedData.firstName}</td>
+                    <td>${storedData.lastName}</td>
+                    <td>${storedData.phone}</td>
+                    <td>${storedData.dob}</td>
+                    <td>${storedData.city}</td>
+                    <td>${storedData.state}</td>
+                    <td>${storedData.zip}</td>
+                    <td>${storedData.country}</td>
+                    <td>${storedData.username}</td>
+                    <td>${storedData.company}</td>
+                    <td>${storedData.jobTitle}</td>
+                    <td>${storedData.website}</td>
+                    <td>${storedData.bio}</td>
+                    <td>${storedData.gender}</td>
+                    <td>${storedData.interests}</td>
+                    <td>${storedData.skills}</td>
+                    <td>${storedData.education}</td>
+                    <td>${storedData.experience}</td>
+                `;
+            }
+        }
+
+        document.getElementById("submitBtn").addEventListener("click", handleFormSubmission);
+        document.getElementById("resetBtn").addEventListener("click", resetForm);
+
+        window.onload = displayData;
+    </script>
+
+</body>
+</html>
+
+
+
+__________________(correct one)
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Data Capture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px;
+            margin: 10px 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            gap:10px;
+        }
+
+        button.reset {
+            background-color: #4CAF50;
+        }
+
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            width: 100%;
+        }
+
+
+
+
+.form-container {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    width: 1300px;
+   margin-top: 200px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+   margin-left: 500px;
+}
+
+
+        table {
+            margin-top: 20px;
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0px;
+            width: 100%;
+        }
+
+        .tab-button {
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #f1f1f1;
+    color: black;
+    width: 1220px;
+    text-align: center;
+    flex-grow: 1;
+    margin: 0;  
+    padding: 0; 
+    height: 70px;
+}
+
+        .tab-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+        }
+
+      
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tabs">
+        <button type="button" class="tab-button" id="formTabBtn">Forms</button>
+        <button type="button" class="tab-button" id="tableTabBtn">Table</button>
+    </div>
+
+    
+    <div id="formContainer" class="tab-content active">
+        <div class="form-container">
+            <h1>Forms</h1>
+            <form id="userForm">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required><br>
+
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" required pattern="[A-Za-z]{2,}" ><br>
+
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" required pattern="[A-Za-z]{2,}"  ><br>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" required><br>
+
+                <label for="phone">Phone Number:</label>
+                <input type="number" required pattern="^\d{10}$" id="phone"  ><br>
+
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" required max="2007-12-31" ><br>
+
+                <label for="city">City:</label>
+                <input type="text" id="city" required pattern="[A-Za-z\s]{2,}" ><br>
+
+                <label for="state">State:</label>
+                <input type="text" id="state" required><br>
+
+                <label for="zip">Zip Code:</label>
+                <input type="number" id="zip" required pattern="\d{5}" ><br>
+
+                <label for="country">Country:</label>
+                <input type="text" id="country" required pattern="[A-Za-z\s]{2,}"><br>
+
+                <label for="username">Username:</label>
+                <input type="text" id="username" required pattern="[A-Za-z]{2,}" ><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" required><br>
+
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" required><br>
+
+                <label for="company">Company:</label>
+                <input type="text" id="company"><br>
+
+                <label for="jobTitle">Job Title:</label>
+                <input type="text" id="jobTitle"><br>
+
+                <label for="website">Website:</label>
+                <input type="text" id="website" required pattern="https?://([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}" ><br>
+
+                <label for="bio">Bio:</label>
+                <textarea id="bio"></textarea><br>
+
+                <label for="gender">Gender:</label>
+                <select id="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select><br>
+
+                <label for="interests">Interests:</label>
+                <input type="text" id="interests" required pattern="[A-Za-z]{5,}" ><br>
+
+                <label for="skills">Skills:</label>
+                <input type="text" id="skills" required pattern="[A-Za-z]{2,}" ><br>
+
+                <label for="education">Education:</label>
+                <input type="text" id="education"><br>
+
+                <label for="experience">Experience (in years):</label>
+                <input type="number" id="experience" required min="0" ><br>
+
+                <button type="button" id="submitBtn">Submit</button>
+                <button type="button" class="reset" id="resetBtn">Reset</button>
+            </form>
+        </div>
+    </div>
+
+    
+
+    
+   
+    <div id="dataTableContainer" class="tab-content">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px; margin-right: 140px;">Stored Form Data:</h2>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    
+                    <th><input type="checkbox" id="selectAll" /></th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone</th>
+                    <th>Date of Birth</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip Code</th>
+                    <th>Country</th>
+                    <th>Username</th>
+                    <th>Company</th>
+                    <th>Job Title</th>
+                    <th>Website</th>
+                    <th>Bio</th>
+                    <th>Gender</th>
+                    <th>Interests</th>
+                    <th>Skills</th>
+                    <th>Education</th>
+                    <th>Experience</th>
+                    <th>Deletebtn</th>
+                    <th>Editbtn</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+                <tr>
+                    <td><input type="checkbox" class="rowCheckbox" /></td>
+                    <td>example@email.com</td>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>123-456-7890</td>
+                    <td>01/01/1990</td>
+                    <td>New York</td>
+                    <td>NY</td>
+                    <td>10001</td>
+                    <td>USA</td>
+                    <td>john_doe</td>
+                    <td>Example Corp</td>
+                    <td>Developer</td>
+                    <td>www.johndoe.com</td>
+                    <td>Short bio text</td>
+                    <td>Male</td>
+                    <td>Tech, Music</td>
+                    <td>JavaScript, HTML, CSS</td>
+                    <td>Computer Science</td>
+                    <td>5 years</td>
+                    <td><button>Delete</button></td>
+                    <td><button>Edit</button></td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    
+    
+    
+    </div>
+    
+    <script>
+
+
+
+
+        document.getElementById("formTabBtn").addEventListener("click", function() {
+           
+            document.getElementById("formContainer").classList.add("active");
+            document.getElementById("dataTableContainer").classList.remove("active");
+
+            
+            document.getElementById("formTabBtn").classList.add("active");
+            document.getElementById("tableTabBtn").classList.remove("active");
+        });
+
+        document.getElementById("tableTabBtn").addEventListener("click", function() {
+         
+            document.getElementById("formContainer").classList.remove("active");
+            document.getElementById("dataTableContainer").classList.add("active");
+
+            document.getElementById("tableTabBtn").classList.add("active");
+            document.getElementById("formTabBtn").classList.remove("active");
+        });
+
+   
+    document.getElementById("deleteBtn").addEventListener("click", function() {
+        
+        document.getElementById("dataTable").getElementsByTagName('tbody')[0].innerHTML = '';
+    
+    
+        localStorage.removeItem("formData");
+    
+        
+        alert("All data has been deleted!");
+        
+        
+    });
+
+    
+    
+    
+
+   
+        
+        function validateForm() {
+            const phone = document.getElementById("phone").value;
+            const city = document.getElementById("city").value;
+            const state = document.getElementById("state").value;
+            const country = document.getElementById("country").value;
+
+            if (!/^\d{10}$/.test(phone)) {
+                alert("Phone number must be exactly 10 digits.");
+                return false;
+            }
+
+            if (!/^[A-Za-z\s]+$/.test(city)) {
+                alert("City name must only contain letters and spaces.");
+                return false;
+            }
+
+            if (!/^[A-Za-z\s]+$/.test(state)) {
+                alert("State name must only contain letters and spaces.");
+                return false;
+            }
+
+            if (!/^[A-Za-z\s]+$/.test(country)) {
+                alert("Country name must only contain letters and spaces.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function handleFormSubmission() {
+            if (!validateForm()) {
+                return;
+            }
+
+            const formData = {
+                email: document.getElementById("email").value,
+                firstName: document.getElementById("firstName").value,
+                lastName: document.getElementById("lastName").value,
+                address: document.getElementById("address").value,
+                phone: document.getElementById("phone").value,
+                dob: document.getElementById("dob").value,
+                city: document.getElementById("city").value,
+                state: document.getElementById("state").value,
+                zip: document.getElementById("zip").value,
+                country: document.getElementById("country").value,
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
+                confirmPassword: document.getElementById("confirmPassword").value,
+                company: document.getElementById("company").value,
+                jobTitle: document.getElementById("jobTitle").value,
+                website: document.getElementById("website").value,
+                bio: document.getElementById("bio").value,
+                gender: document.getElementById("gender").value,
+                interests: document.getElementById("interests").value,
+                skills: document.getElementById("skills").value,
+                education: document.getElementById("education").value,
+                experience: document.getElementById("experience").value
+            };
+
+            localStorage.setItem("formData", JSON.stringify(formData));
+            alert("Form data has been saved!");
+            document.getElementById("userForm").reset();
+            displayData();
+        }
+
+        function resetForm() {
+            document.getElementById("userForm").reset();
+        }
+
+        function displayData() {
+            const storedData = JSON.parse(localStorage.getItem("formData"));
+
+            if (storedData) {
+                const tbody = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
+                const newRow = tbody.insertRow();
+
+                newRow.innerHTML = `
+                    <td>${storedData.email}</td>
+                    <td>${storedData.firstName}</td>
+                    <td>${storedData.lastName}</td>
+                    <td>${storedData.phone}</td>
+                    <td>${storedData.dob}</td>
+                    <td>${storedData.city}</td>
+                    <td>${storedData.state}</td>
+                    <td>${storedData.zip}</td>
+                    <td>${storedData.country}</td>
+                    <td>${storedData.username}</td>
+                    <td>${storedData.company}</td>
+                    <td>${storedData.jobTitle}</td>
+                    <td>${storedData.website}</td>
+                    <td>${storedData.bio}</td>
+                    <td>${storedData.gender}</td>
+                    <td>${storedData.interests}</td>
+                    <td>${storedData.skills}</td>
+                    <td>${storedData.education}</td>
+                    <td>${storedData.experience}</td>
+                    <td>${storedData.deletebtn}</td>
+                    <td>${storedData.editbtn}</td>
+                `;
+            }
+        }
+
+        document.getElementById("submitBtn").addEventListener("click", handleFormSubmission);
+        document.getElementById("resetBtn").addEventListener("click", resetForm);
+
+        window.onload = displayData;
+    </script>
+
+</body>
+</html>

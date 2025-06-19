@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Events Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .box { width: 150px; height: 150px; background: lightblue; margin: 20px auto; line-height: 150px; text-align: center; cursor: pointer; }
+        .drag { width: 100px; height: 100px; background: orange; margin: 10px auto; cursor: grab; }
+        textarea { width: 80%; height: 100px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+    <h1>JavaScript Browser Events Demo</h1>
+
+    <!-- Mouse Events -->
+    <div class="box" id="mouseBox">Click Me</div>
+
+    <!-- Keyboard Events -->
+    <input type="text" id="keyInput" placeholder="Type something..." />
+
+    <!-- Form Events -->
+    <form id="myForm">
+        <input type="text" id="nameInput" placeholder="Enter name">
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Drag & Drop Events -->
+    <div id="dropArea" class="box">Drop Here</div>
+    <div id="dragItem" class="drag" draggable="true">Drag Me</div>
+
+    <!-- Clipboard Events -->
+    <textarea id="copyPasteArea" placeholder="Copy/Paste here"></textarea>
+
+    <script>   
+        // Mouse Events
+        let mouseBox = document.getElementById("mouseBox");
+        mouseBox.addEventListener("click", () => alert("Box Clicked!"));
+        mouseBox.addEventListener("dblclick", () => alert("Double Clicked!"));
+        mouseBox.addEventListener("mouseover", () => mouseBox.style.background = "lightgreen");
+        mouseBox.addEventListener("mouseout", () => mouseBox.style.background = "lightblue");
+        mouseBox.addEventListener("contextmenu", (e) => { e.preventDefault(); alert("Right Click Blocked!"); });
+
+        // Keyboard Events 
+        document.getElementById("keyInput").addEventListener("keydown", (e) => console.log("Key Pressed: " + e.key));
+        document.getElementById("keyInput").addEventListener("keyup", (e) => console.log("Key Released: " + e.key));
+
+        document.getElementById("nameInput").addEventListener("focus", () => console.log("Input Focused"));
+        document.getElementById("nameInput").addEventListener("blur", () => console.log("Input Blurred"));
+        document.getElementById("myForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            alert("Form Submitted!");
+        });
+
+        // Window Events
+        window.addEventListener("resize", () => console.log("Window Resized: " + window.innerWidth + "px"));
+        window.addEventListener("scroll", () => console.log("Page Scrolled!"));
+        window.addEventListener("load", () => console.log("Page Loaded!"));
+
+        // Drag & Drop Events
+        let dragItem = document.getElementById("dragItem");
+        let dropArea = document.getElementById("dropArea");
+
+        dragItem.addEventListener("dragstart", (e) => e.dataTransfer.setData("text", e.target.id));
+        dropArea.addEventListener("dragover", (e) => e.preventDefault());
+        dropArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            let data = e.dataTransfer.getData("text");
+            e.target.appendChild(document.getElementById(data));
+        });
+
+        // Clipboard Events
+        document.getElementById("copyPasteArea").addEventListener("copy", () => alert("Text Copied!"));
+        document.getElementById("copyPasteArea").addEventListener("paste", () => alert("Text Pasted!"));
+    </script>
+
+</body>
+</html>

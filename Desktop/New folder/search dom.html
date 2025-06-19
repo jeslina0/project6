@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Search Example</title>
+    <style>
+        .highlight { background-color: yellow; }
+        .container { padding: 10px; border: 2px solid black; margin: 20px; }
+        .item { padding: 5px; margin: 5px; border: 1px solid gray; }
+    </style>
+</head>
+<body>
+
+    <h1 id="title">DOM Search Example</h1>
+
+    <div id="parentElement" class="container">
+        <p class="text">Paragraph 1</p>
+        <p class="text">Paragraph 2</p>
+        <p class="text" data-type="special">Special Paragraph</p>
+        <div class="item">First Child</div>
+        <div id="myElement" class="item">Middle Child</div>
+        <div class="item">Last Child</div>
+    </div>
+
+    <button onclick="searchDOM()">Search the DOM</button>
+
+    <script>
+        function searchDOM() {
+            console.clear(); 
+
+            //  Searching by ID
+            let title = document.getElementById("title");
+            console.log("🔹 Title Element:", title);
+
+            let middleChild = document.getElementById("myElement");
+            console.log("🔹 Middle Child:", middleChild);
+
+            //  Searching by Class Name
+            let paragraphs = document.getElementsByClassName("text");
+            console.log("🔹 Paragraphs:", paragraphs);
+
+            let allItems = document.getElementsByClassName("item");
+            console.log("🔹 All Items:", allItems);
+
+            //  Searching by Tag Name
+            let allDivs = document.getElementsByTagName("div");
+            console.log("🔹 All <div> elements:", allDivs);
+
+            let allParagraphs = document.getElementsByTagName("p");
+            console.log("🔹 All <p> elements:", allParagraphs);
+
+            //  Searching using querySelector 
+            let firstParagraph = document.querySelector(".text");
+            console.log("🔹 First Paragraph (querySelector):", firstParagraph);
+
+            let specialElement = document.querySelector("[data-type='special']");
+            console.log("🔹 Special Paragraph (querySelector):", specialElement);
+
+            //  Searching using querySelectorAll 
+            let allTextElements = document.querySelectorAll(".text");
+            console.log("🔹 All '.text' elements (querySelectorAll):", allTextElements);
+
+            let allItemsQuery = document.querySelectorAll(".item");
+            console.log("🔹 All '.item' elements (querySelectorAll):", allItemsQuery);
+
+            
+            let parent = document.getElementById("parentElement");
+            console.log("🔵 Parent Element:", parent);
+
+            console.log("🟠 First Child of Parent:", parent.firstElementChild);
+            console.log("🟠 Last Child of Parent:", parent.lastElementChild);
+            console.log("🟠 Next Sibling of Middle Child:", middleChild.nextElementSibling);
+            console.log("🟠 Previous Sibling of Middle Child:", middleChild.previousElementSibling);
+
+           
+            allTextElements.forEach(element => {
+                element.classList.add("highlight");
+            });
+
+            console.log(" All selected paragraphs are now highlighted!");
+        }
+    </script>
+
+</body>
+</html>

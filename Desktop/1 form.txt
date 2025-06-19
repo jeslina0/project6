@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Data Capture</title>
+    <style>
+        body {
+             font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+ 
+        button {
+            padding: 10px;
+            margin: 10px 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+ 
+        button.reset {
+            background-color: #f44336;
+        }
+        
+        button.save {
+            background-color: #2196F3;
+        }
+ 
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            width: 100%;
+        }
+ 
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 1300px;
+            margin-top: 200px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-left: 500px;
+        }
+ 
+        table {
+            margin-top: 20px;
+            width: 80%;
+            border-collapse: collapse;
+        } 
+ 
+        table, th, td {
+            border: 1px solid black;
+        }
+ 
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        
+        td input, td select {
+            width: 90%;
+            margin: 0;
+            padding: 5px;
+        }
+        
+        .editing {
+            background-color: #f8f8f8;
+        }
+ 
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            width: 1000%;
+            padding: 0px;
+        }
+ 
+        .tab-button {
+            padding: 0px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #f1f1f1;
+            color: black;
+            height: 100px;
+            width: 1620px;
+            text-align: center;
+            display: inline-block;
+            gap: 0px;
+            margin: 0;
+        }
+ 
+        .tab-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+ 
+        .tab-content {
+            display: none;
+            width: 100%;
+        }
+ 
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+ 
+    <div class="tabs">
+        <button type="button" class="tab-button" id="formTabBtn">Forms</button>
+        <button type="button" class="tab-button" id="tableTabBtn">Table</button>
+    </div>
+ 
+    <div id="formContainer" class="tab-content active">
+        <div class="form-container">
+            <h1>Forms</h1>
+            <form id="userForm">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required><br>
+ 
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" required pattern="[A-Za-z]{2,}" ><br>
+ 
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" required pattern="[A-Za-z]{2,}"  ><br>
+ 
+                <label for="address">Address:</label>
+                <input type="text" id="address" required><br>
+ 
+                <label for="phone">Phone Number:</label>
+                <input type="number" required pattern="^\d{10}$" id="phone"  ><br>
+ 
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" required max="2007-12-31" ><br>
+ 
+                <label for="city">City:</label>
+                <input type="text" id="city" required pattern="[A-Za-z\s]{2,}" ><br>
+ 
+                <label for="state">State:</label>
+                <input type="text" id="state" required><br>
+ 
+                <label for="zip">Zip Code:</label>
+                <input type="number" id="zip" required pattern="\d{5}" ><br>
+ 
+                <label for="country">Country:</label>
+                <input type="text" id="country" required pattern="[A-Za-z\s]{2,}"><br>
+ 
+                <label for="username">Username:</label>
+                <input type="text" id="username" required pattern="[A-Za-z]{2,}" ><br>
+ 
+                <label for="password">Password:</label>
+                <input type="password" id="password" required><br>
+ 
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" required><br>
+ 
+                <label for="company">Company:</label>
+                <input type="text" id="company"><br>
+ 
+                <label for="jobTitle">Job Title:</label>
+                <input type="text" id="jobTitle"><br>
+ 
+                <label for="website">Website:</label>
+                <input type="text" id="website" required pattern="https?://([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}" ><br>
+ 
+                <label for="bio">Bio:</label>
+                <textarea id="bio"></textarea><br>
+ 
+                <label for="gender">Gender:</label>
+                <select id="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select><br>
+ 
+                <label for="interests">Interests:</label>
+                <input type="text" id="interests" required pattern="[A-Za-z]{5,}" ><br>
+ 
+                <label for="skills">Skills:</label>
+                <input type="text" id="skills" required pattern="[A-Za-z]{2,}" ><br>
+ 
+                <label for="education">Education:</label>
+                <input type="text" id="education"><br>
+ 
+                <label for="experience">Experience (in years):</label>
+                <input type="number" id="experience" required min="0" ><br>
+ 
+                <button type="button" id="submitBtn" disabled>Submit</button>
+                <button type="button" class="reset" id="resetBtn" disabled>Reset</button>
+            </form>    
+        </div>
+    </div>
+ 
+    <div id="dataTableContainer" class="tab-content">
+        <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Stored Form Data:</h2>
+        <div style="margin-left: 120px;">
+            <div style="margin-left: 120px;">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll" /> Select All</th>
+                            <th>Email</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone</th>
+                            <th>Date of Birth</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Zip Code</th>
+                            <th>Country</th>
+                            <th>Username</th>
+                            <th>Company</th>
+                            <th>Job Title</th>
+                            <th>Website</th>
+                            <th>Bio</th>
+                            <th>Gender</th>
+                            <th>Interests</th>
+                            <th>Skills</th>
+                            <th>Education</th>
+                            <th>Experience</th>
+                            <th>Delete</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" class="rowCheckbox" /></td>
+                            <td>user@example.com</td>
+                            <td>John</td>
+                            <td>Doe</td>
+                            <td>1234567890</td>
+                            <td>1980-01-01</td>
+                            <td>New York</td>
+                            <td>NY</td>
+                            <td>10001</td>
+                            <td>USA</td>
+                            <td>johndoe</td>
+                            <td>ABC Corp</td>
+                            <td>Software Engineer</td>
+                            <td>https://www.johndoe.com</td>
+                            <td>Software Developer</td>
+                            <td>Male</td>
+                            <td>Reading, Traveling</td>
+                            <td>JavaScript, HTML, CSS</td>
+                            <td>MIT</td>  
+                            <td>5</td>
+                            <td><button type="button" class="deleteBtn">Delete</button></td>
+                            <td><button type="button" class="editBtn">Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="rowCheckbox" /></td>
+                            <td>ihreufcrm@gmail.com</td>
+                            <td>Jane</td>
+                            <td>Smith</td>
+                            <td>9876543210</td>
+                            <td>1985-05-15</td>
+                            <td>Los Angeles</td>
+                            <td>CA</td>
+                            <td>90001</td>
+                            <td>USA</td>
+                            <td>janesmith</td>
+                            <td>XYZ Inc</td>
+                            <td>UX Designer</td>
+                            <td>https://www.janesmith.com</td>
+                            <td>UX Designer</td>
+                            <td>Female</td>
+                            <td>Design, Photography</td>
+                            <td>Figma, Sketch, Adobe XD</td>
+                            <td>Stanford</td>
+                            <td>8</td>
+                            <td><button type="button" class="deleteBtn">Delete</button></td>
+                            <td><button type="button" class="editBtn">Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button type="button" id="deleteSelectedBtn">Delete Selected</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    
+        document.getElementById("formTabBtn").addEventListener("click", function() {
+            document.getElementById("formContainer").classList.add("active");
+            document.getElementById("dataTableContainer").classList.remove("active");
+            document.getElementById("formTabBtn").classList.add("active");
+            document.getElementById("tableTabBtn").classList.remove("active");
+        });
+ 
+        document.getElementById("tableTabBtn").addEventListener("click", function() {
+            document.getElementById("formContainer").classList.remove("active");
+            document.getElementById("dataTableContainer").classList.add("active");
+            document.getElementById("tableTabBtn").classList.add("active");
+            document.getElementById("formTabBtn").classList.remove("active");
+        });
+        
+        const submitBtn = document.getElementById("submitBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const form = document.getElementById("userForm");
+ 
+        function checkFormFilled() {
+            let isFormFilled = false;
+            form.querySelectorAll('input, select, textarea').forEach(input => {
+                if (input.value.trim() !== '') {
+                    isFormFilled = true;
+                }
+            });
+            submitBtn.disabled = !isFormFilled;
+            resetBtn.disabled = !isFormFilled;
+        }
+ 
+        form.addEventListener("input", checkFormFilled);
+ 
+        resetBtn.addEventListener("click", () => {
+            form.reset();
+            checkFormFilled();
+        });
+ 
+        function validateForm() {
+            const phone = document.getElementById("phone").value;
+            const city = document.getElementById("city").value;
+            const state = document.getElementById("state").value; 
+            const country = document.getElementById("country").value;
+            const firstName = document.getElementById("firstName").value;  
+            const email = document.getElementById("email").value;
+            const lastName = document.getElementById("lastName").value;
+            const company = document.getElementById("company").value;
+            const username = document.getElementById("username").value;
+            const jobTitle = document.getElementById("jobTitle").value; 
+            const website = document.getElementById("website").value; 
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+  
+            if (!/^\d{10}$/.test(phone)) {
+                alert("Phone number must be exactly 10 digits.");
+                return false;
+            }
+            if (!/^[A-Za-z]+$/.test(firstName)) {
+                alert("First name must contain only letters and be more than 2 characters.");
+                return false;
+            }
+ 
+            if (!/^[A-Za-z]+@[A-Za-z]+\.[A-Za-z]+$/.test(email)) {
+                alert("Email must only contain letters and an '@' symbol.");
+                return false;
+            }
+            if (!/^[A-Za-z\s]+$/.test(username)) {
+                alert("Username must only contain letters and spaces.");
+                return false;
+            }
+ 
+            if (jobTitle && !/^[A-Za-z\s]+$/.test(jobTitle)) {
+                alert("Job title must only contain letters and spaces.");
+                return false;
+            }
+            if (website && !/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(\/[a-zA-Z0-9-]*)*$/.test(website)) {
+                alert("Please enter a valid website URL starting with 'http://' or 'https://'.");
+                return false;
+            }
+ 
+            if (company && !/^[A-Za-z\s]+$/.test(company)) {
+                alert("Company name must only contain letters and spaces.");
+                return false;
+            }
+ 
+            if (!/^[A-Za-z]+$/.test(lastName)) {
+                alert("Last name must contain only letters and be more than 2 characters.");
+                return false;
+            }
+ 
+            if (!/^[A-Za-z\s]+$/.test(city)) {
+                alert("City name must only contain letters and spaces.");
+                return false;
+            }
+  
+            if (!/^[A-Za-z\s]+$/.test(state)) {
+                alert("State name must only contain letters and spaces.");
+                return false;
+            }  
+ 
+            if (!/^[A-Za-z\s]+$/.test(country)) {
+                alert("Country name must only contain letters and spaces.");
+                return false;
+            }
+           
+            if (password !== confirmPassword) {
+                alert("Entered passwords do not match.");
+                return false;
+            }
+ 
+            return true;
+        }
+ 
+         function handleFormSubmission() {
+            if (!validateForm()) {
+                return;
+            }        
+ 
+            const formData = {
+                email: document.getElementById("email").value,
+                firstName: document.getElementById("firstName").value,
+                lastName: document.getElementById("lastName").value,
+                address: document.getElementById("address").value,
+                phone: document.getElementById("phone").value,
+                dob: document.getElementById("dob").value,
+                city: document.getElementById("city").value,
+                state: document.getElementById("state").value,
+                zip: document.getElementById("zip").value,
+                country: document.getElementById("country").value,
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
+                company: document.getElementById("company").value,
+                jobTitle: document.getElementById("jobTitle").value,
+                website: document.getElementById("website").value,
+                bio: document.getElementById("bio").value,
+                gender: document.getElementById("gender").value,
+                interests: document.getElementById("interests").value,
+                skills: document.getElementById("skills").value,
+                education: document.getElementById("education").value,
+                experience: document.getElementById("experience").value
+            };
+ 
+            localStorage.setItem("formData", JSON.stringify(formData));
+            alert("Form data has been saved!");
+            document.getElementById("userForm").reset();
+            displayData();
+        }
+ 
+        function displayData() {
+            const storedData = JSON.parse(localStorage.getItem("formData"));
+ 
+            if (storedData) {
+                const tbody = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
+                const newRow = tbody.insertRow();
+ 
+                newRow.innerHTML = `
+                    <td><input type="checkbox" class="rowCheckbox" /></td>
+                    <td>${storedData.email}</td>
+                    <td>${storedData.firstName}</td>
+                    <td>${storedData.lastName}</td>
+                    <td>${storedData.phone}</td>
+                    <td>${storedData.dob}</td>
+                    <td>${storedData.city}</td> 
+                    <td>${storedData.state}</td>
+                    <td>${storedData.zip}</td>
+                    <td>${storedData.country}</td>
+                    <td>${storedData.username}</td>
+                    <td>${storedData.company || ''}</td>
+                    <td>${storedData.jobTitle || ''}</td>
+                    <td>${storedData.website || ''}</td>
+                    <td>${storedData.bio || ''}</td>
+                    <td>${storedData.gender}</td>
+                    <td>${storedData.interests}</td>
+                    <td>${storedData.skills}</td>
+                    <td>${storedData.education || ''}</td>
+                    <td>${storedData.experience}</td>
+                    <td><button class="deleteBtn">Delete</button></td>
+                    <td><button class="editBtn">Edit</button></td>
+                `;
+                
+                initializeRowButtons(newRow);
+            }
+        }
+        
+        function initializeRowButtons(row) {
+            const deleteBtn = row.querySelector('.deleteBtn');
+            const editBtn = row.querySelector('.editBtn');
+            
+            deleteBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete this record?')) {
+                    row.remove();
+                }
+            });
+            
+            editBtn.addEventListener('click', function() {
+                handleRowEdit(row, editBtn);
+            });
+        }
+        
+        
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
+        
+        selectAllCheckbox.addEventListener('change', function() {
+            const rowCheckboxes = document.querySelectorAll('.rowCheckbox');
+            rowCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+        
+        deleteSelectedBtn.addEventListener('click', function() {
+            const rows = document.querySelectorAll('#dataTable tbody tr');
+            let hasSelected = false;
+            
+            rows.forEach(function(row) {
+                const checkbox = row.querySelector('.rowCheckbox');
+                if (checkbox && checkbox.checked) {
+                    hasSelected = true;
+                    row.remove();
+                }
+            });
+            
+            if (hasSelected) {
+                alert('Selected rows have been deleted.');
+            } else {
+                alert('No rows selected for deletion.');
+            }
+            
+            
+            selectAllCheckbox.checked = false;
+        });
+    
+      
+        function handleRowEdit(row, editBtn) {
+            const cells = row.cells;
+            const isEditing = row.classList.contains('editing');
+            
+            if (isEditing) {       
+              
+                editBtn.textContent = 'Edit';
+                row.classList.remove('editing');
+                
+              
+                for (let i = 1; i < cells.length - 2; i++) {
+                    const input = cells[i].querySelector('input, select, textarea');
+                    if (input) {
+                        cells[i].textContent = input.value;
+                    }
+                }
+            } else {
+                
+          editBtn.textContent = 'Save';
+                row.classList.add('editing');
+               
+                for (let i = 1; i < cells.length - 2; i++) {
+                    const cellText = cells[i].textContent;
+                     const fieldName = document.querySelector('#dataTable thead th:nth-child(' + (i + 1) + ')').textContent;
+                    
+                
+                    let inputHTML;
+                    if (fieldName === 'Gender') {
+                        inputHTML = `<select>
+                            <option value="Male" ${cellText === 'Male' ? 'selected' : ''}>Male</option>
+                            <option value="Female" ${cellText === 'Female' ? 'selected' : ''}>Female</option>
+                            <option value="Other" ${cellText === 'Other' ? 'selected' : ''}>Other</option>
+                        </select>`;
+                    } else if (fieldName === 'Date of Birth') {
+                        inputHTML = `<input type="date" value="${cellText}">`;
+                    } else if (fieldName === 'Phone' || fieldName === 'Zip Code' || fieldName === 'Experience') {
+                        inputHTML = `<input type="number" value="${cellText}">`;
+                    } else if (fieldName === 'Email') {
+                        inputHTML = `<input type="email" value="${cellText}">`;
+                    } else if (fieldName === 'Website') {
+                        inputHTML = `<input type="url" value="${cellText}">`;
+                    } else if (fieldName === 'Bio') {
+                        inputHTML = `<textarea>${cellText}</textarea>`;
+                    } else {
+                        inputHTML = `<input type="text" value="${cellText}">`;
+                    } 
+                    
+                    cells[i].innerHTML = inputHTML;
+                }
+            }
+        }
+ 
+    document.querySelectorAll('#dataTable tbody tr').forEach(row => {
+            initializeRowButtons(row);
+        });
+         
+ document.getElementById("submitBtn").addEventListener("click", handleFormSubmission);
+    </script>
+</body> 
+</html>
+
+ 
